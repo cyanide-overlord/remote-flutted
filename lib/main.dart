@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     var dio = Dio();
     response = await dio.download('https://localhost:8080/', './program.evc');*/
     return RuntimeWidget(
-  uri: Uri.parse('https://localhost:8080/program.evc'),
+  uri: Uri.parse('http://localhost:8080/program.evc'),
   library: 'package:app/main.dart',
   function: 'MyApp.',
   args: [null]
