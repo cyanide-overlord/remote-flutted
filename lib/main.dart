@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_eval/flutter_eval.dart';
+import 'package:dio/dio.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,8 +12,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    Response response;
+    var dio = Dio();
+    response = await dio.download('https://localhost:8080/', './program.evc');
     return RuntimeWidget(
-  uri: Uri.parse('asset:assets/program.evc'),
+  uri: response,
   library: 'package:app/main.dart',
   function: 'MyApp.',
   args: [null]
