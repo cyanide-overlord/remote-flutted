@@ -12,9 +12,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+  /*
     Response response;
     var dio = Dio();
-    response = await dio.download('https://localhost:8080/', './program.evc');
+    response = await dio.download('https://localhost:8080/', './program.evc');*/
     return RuntimeWidget(
   uri: Uri.parse('https://localhost:8080/program.evc'),
   library: 'package:app/main.dart',
