@@ -2,6 +2,11 @@
     package="com.example.app">
    <!-- Required to fetch data from the internet. -->
    <uses-permission android:name="android.permission.INTERNET" />
+
+   <!-- Storage permission -->
+   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
    <application
         android:label="app"
         android:name="${applicationName}"
