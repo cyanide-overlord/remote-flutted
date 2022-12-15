@@ -1,35 +1,43 @@
-// Copyright 2013 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-// ignore_for_file: public_member_api_docs
-
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:flutter_eval/flutter_eval.dart';
+import 'package:dio/dio.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Path Provider',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Path Provider'),
-    );
+  /*
+    Response response;
+    var dio = Dio();
+    response = await dio.download('https://localhost:8080/', './program.evc');*/
+    return RuntimeWidget(
+  uri: Uri.parse('file:///storage/emulated/0/Android/data/com.example.app/program.evc'),
+  library: 'package:app/main.dart',
+  function: 'MyApp.',
+  args: [null],
+//  loading: CircularProgressIndicator(),
+);
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({super.key, required this.title});
+
+  // This widget is the home page of your application. It is stateful, meaning
+  // that it has a State object (defined below) that contains fields that affect
+  // how it looks.
+
+  // This class is the configuration for the state. It holds the values (in this
+  // case the title) provided by the parent (in this case the App widget) and
+  // used by the build method of the State. Fields in a Widget subclass are
+  // always marked "final".
+
   final String title;
 
   @override
@@ -37,266 +45,68 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Future<Directory?>? _tempDirectory;
-  Future<Directory?>? _appSupportDirectory;
-  Future<Directory?>? _appLibraryDirectory;
-  Future<Directory?>? _appDocumentsDirectory;
-  Future<Directory?>? _externalDocumentsDirectory;
-  Future<List<Directory>?>? _externalStorageDirectories;
-  Future<List<Directory>?>? _externalCacheDirectories;
-  Future<Directory?>? _downloadsDirectory;
+  int _counter = 0;
 
-  void _requestTempDirectory() {
+  void _incrementCounter() {
     setState(() {
-      _tempDirectory = getTemporaryDirectory();
-    });
-  }
-
-  Widget _buildDirectory(
-      BuildContext context, AsyncSnapshot<Directory?> snapshot) {
-    Text text = const Text('');
-    if (snapshot.connectionState == ConnectionState.done) {
-      if (snapshot.hasError) {
-        text = Text('Error: ${snapshot.error}');
-      } else if (snapshot.hasData) {
-        text = Text('path: ${snapshot.data!.path}');
-      } else {
-        text = const Text('path unavailable');
-      }
-    }
-    return Padding(padding: const EdgeInsets.all(16.0), child: text);
-  }
-
-  Widget _buildDirectories(
-      BuildContext context, AsyncSnapshot<List<Directory>?> snapshot) {
-    Text text = const Text('');
-    if (snapshot.connectionState == ConnectionState.done) {
-      if (snapshot.hasError) {
-        text = Text('Error: ${snapshot.error}');
-      } else if (snapshot.hasData) {
-        final String combined =
-            snapshot.data!.map((Directory d) => d.path).join(', ');
-        text = Text('paths: $combined');
-      } else {
-        text = const Text('path unavailable');
-      }
-    }
-    return Padding(padding: const EdgeInsets.all(16.0), child: text);
-  }
-
-  void _requestAppDocumentsDirectory() {
-    setState(() {
-      _appDocumentsDirectory = getApplicationDocumentsDirectory();
-    });
-  }
-
-  void _requestAppSupportDirectory() {
-    setState(() {
-      _appSupportDirectory = getApplicationSupportDirectory();
-    });
-  }
-
-  void _requestAppLibraryDirectory() {
-    setState(() {
-      _appLibraryDirectory = getLibraryDirectory();
-    });
-  }
-
-  void _requestExternalStorageDirectory() {
-    setState(() {
-      _externalDocumentsDirectory = getExternalStorageDirectory();
-    });
-  }
-
-  void _requestExternalStorageDirectories(StorageDirectory type) {
-    setState(() {
-      _externalStorageDirectories = getExternalStorageDirectories(type: type);
-    });
-  }
-
-  void _requestExternalCacheDirectories() {
-    setState(() {
-      _externalCacheDirectories = getExternalCacheDirectories();
-    });
-  }
-
-  void _requestDownloadsDirectory() {
-    setState(() {
-      _downloadsDirectory = getDownloadsDirectory();
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      _counter++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    // This method is rerun every time setState is called, for instance as done
+    // by the _incrementCounter method above.
+    //
+    // The Flutter framework has been optimized to make rerunning build methods
+    // fast, so that you can just rebuild anything that needs updating rather
+    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
-        child: ListView(
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
+        child: Column(
+          // Column is also a layout widget. It takes a list of children and
+          // arranges them vertically. By default, it sizes itself to fit its
+          // children horizontally, and tries to be as tall as its parent.
+          //
+          // Invoke "debug painting" (press "p" in the console, choose the
+          // "Toggle Debug Paint" action from the Flutter Inspector in Android
+          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+          // to see the wireframe for each widget.
+          //
+          // Column has various properties to control how it sizes itself and
+          // how it positions its children. Here we use mainAxisAlignment to
+          // center the children vertically; the main axis here is the vertical
+          // axis because Columns are vertical (the cross axis would be
+          // horizontal).
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ElevatedButton(
-                    onPressed: _requestTempDirectory,
-                    child: const Text(
-                      'Get Temporary Directory',
-                    ),
-                  ),
-                ),
-                FutureBuilder<Directory?>(
-                  future: _tempDirectory,
-                  builder: _buildDirectory,
-                ),
-              ],
+            const Text(
+              'You have pushed the button this many times:',
             ),
-            Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ElevatedButton(
-                    onPressed: _requestAppDocumentsDirectory,
-                    child: const Text(
-                      'Get Application Documents Directory',
-                    ),
-                  ),
-                ),
-                FutureBuilder<Directory?>(
-                  future: _appDocumentsDirectory,
-                  builder: _buildDirectory,
-                ),
-              ],
-            ),
-            Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ElevatedButton(
-                    onPressed: _requestAppSupportDirectory,
-                    child: const Text(
-                      'Get Application Support Directory',
-                    ),
-                  ),
-                ),
-                FutureBuilder<Directory?>(
-                  future: _appSupportDirectory,
-                  builder: _buildDirectory,
-                ),
-              ],
-            ),
-            Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ElevatedButton(
-                    onPressed:
-                        Platform.isAndroid ? null : _requestAppLibraryDirectory,
-                    child: Text(
-                      Platform.isAndroid
-                          ? 'Application Library Directory unavailable'
-                          : 'Get Application Library Directory',
-                    ),
-                  ),
-                ),
-                FutureBuilder<Directory?>(
-                  future: _appLibraryDirectory,
-                  builder: _buildDirectory,
-                ),
-              ],
-            ),
-            Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ElevatedButton(
-                    onPressed: !Platform.isAndroid
-                        ? null
-                        : _requestExternalStorageDirectory,
-                    child: Text(
-                      !Platform.isAndroid
-                          ? 'External storage is unavailable'
-                          : 'Get External Storage Directory',
-                    ),
-                  ),
-                ),
-                FutureBuilder<Directory?>(
-                  future: _externalDocumentsDirectory,
-                  builder: _buildDirectory,
-                ),
-              ],
-            ),
-            Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ElevatedButton(
-                    onPressed: !Platform.isAndroid
-                        ? null
-                        : () {
-                            _requestExternalStorageDirectories(
-                              StorageDirectory.music,
-                            );
-                          },
-                    child: Text(
-                      !Platform.isAndroid
-                          ? 'External directories are unavailable'
-                          : 'Get External Storage Directories',
-                    ),
-                  ),
-                ),
-                FutureBuilder<List<Directory>?>(
-                  future: _externalStorageDirectories,
-                  builder: _buildDirectories,
-                ),
-              ],
-            ),
-            Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ElevatedButton(
-                    onPressed: !Platform.isAndroid
-                        ? null
-                        : _requestExternalCacheDirectories,
-                    child: Text(
-                      !Platform.isAndroid
-                          ? 'External directories are unavailable'
-                          : 'Get External Cache Directories',
-                    ),
-                  ),
-                ),
-                FutureBuilder<List<Directory>?>(
-                  future: _externalCacheDirectories,
-                  builder: _buildDirectories,
-                ),
-              ],
-            ),
-            Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ElevatedButton(
-                    onPressed: Platform.isAndroid || Platform.isIOS
-                        ? null
-                        : _requestDownloadsDirectory,
-                    child: Text(
-                      Platform.isAndroid || Platform.isIOS
-                          ? 'Downloads directory is unavailable'
-                          : 'Get Downloads Directory',
-                    ),
-                  ),
-                ),
-                FutureBuilder<Directory?>(
-                  future: _downloadsDirectory,
-                  builder: _buildDirectory,
-                ),
-              ],
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headline4,
             ),
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
