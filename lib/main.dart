@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
   uri: Uri.parse('http://localhost:8080/program.evc'),
   library: 'package:app/main.dart',
   function: 'MyApp.',
-  args: [null]
+  args: [null],
+  loading: return CircularProgressIndicator(),
 );
   }
 }
