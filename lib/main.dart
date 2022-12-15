@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   library: 'package:app/main.dart',
   function: 'MyApp.',
   args: [null],
-  loading: return CircularProgressIndicator(),
+  loading: CircularProgressIndicator(),
 );
   }
 }
