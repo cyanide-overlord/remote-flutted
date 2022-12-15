@@ -39,7 +39,7 @@ dependencies:
   flutter_eval:
     git:
       url: https://github.com/avi-sayen/flutter_eval
-      branch: main
+      ref: 40cbfa8
   http: ^0.13.5
   dio: ^4.0.6
 dev_dependencies:
